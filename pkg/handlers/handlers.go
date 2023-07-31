@@ -38,8 +38,13 @@ func (m *Repository) Home(res http.ResponseWriter, req *http.Request) {
 
 // About page handler
 func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
-	remoteIp := m.App.Session.GetString(req.Context(), "remote_ip")
-	stringMap := make(map[string]string)
-	stringMap["remote_ip"] = remoteIp
-	render.RenderTemplate(res, "about.html", &models.TemplateData{StringMap: stringMap})
+	// stringMap := make(map[string]string)
+	// stringMap["text"] = "st"
+	render.RenderTemplate(res, "about.html", &models.TemplateData{})
+}
+
+func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
+	// stringMap := make(map[string]string)
+	// stringMap["text"] = "st"
+	render.RenderTemplate(res, "reservation.html", &models.TemplateData{})
 }
