@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"html/template"
 	"log"
-	"myapp/pkg/config"
-	"myapp/pkg/models"
 	"net/http"
 	"path/filepath"
+
+	"github.com/hoangminhtran94/room-bookings/pkg/config"
+	"github.com/hoangminhtran94/room-bookings/pkg/models"
 )
 
 var app *config.AppConfig

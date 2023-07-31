@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"myapp/pkg/config"
-	"myapp/pkg/models"
-	"myapp/pkg/render"
 	"net/http"
+
+	"github.com/hoangminhtran94/room-bookings/pkg/config"
+	"github.com/hoangminhtran94/room-bookings/pkg/models"
+	"github.com/hoangminhtran94/room-bookings/pkg/render"
 )
 
 // TemplateData hold page data

@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
-	"myapp/pkg/config"
-	"myapp/pkg/handlers"
-	"myapp/pkg/render"
 	"net/http"
 	"time"
+
+	"github.com/hoangminhtran94/room-bookings/pkg/config"
+	"github.com/hoangminhtran94/room-bookings/pkg/handlers"
+	"github.com/hoangminhtran94/room-bookings/pkg/render"
 
 	"github.com/alexedwards/scs/v2"
 )
