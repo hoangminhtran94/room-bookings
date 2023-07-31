@@ -48,3 +48,9 @@ func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
 	// stringMap["text"] = "st"
 	render.RenderTemplate(res, "reservation.html", &models.TemplateData{})
 }
+
+func (m *Repository) Generals(res http.ResponseWriter, req *http.Request) {
+	// stringMap := make(map[string]string)
+	// stringMap["text"] = "st"
+	render.RenderTemplate(res, "generals.html", &models.TemplateData{})
+}

@@ -82,6 +82,12 @@
   })();
   const elem = document.getElementById("reservation-date");
   const rangepicker = new DateRangePicker(elem, {});
+  const showAlert = (msg, type) => {
+    notie.alert({
+      type: type, // optional, default = 4, enum: [1, 2, 3, 4, 5, 'success', 'warning', 'error', 'info', 'neutral']
+      text: msg,
+    });
+  };
 </script>
-
+<script src="https://unpkg.com/notie"></script>
 {{end}}
