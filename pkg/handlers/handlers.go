@@ -54,3 +54,6 @@ func (m *Repository) Generals(res http.ResponseWriter, req *http.Request) {
 	// stringMap["text"] = "st"
 	render.RenderTemplate(res, "generals.html", &models.TemplateData{})
 }
+func (m *Repository) MajorSuite(res http.ResponseWriter, req *http.Request) {
+	render.RenderTemplate(res,"major.html",&models.TemplateData{})
+}
