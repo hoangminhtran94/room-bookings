@@ -2,6 +2,7 @@ package form
 
 import (
 	"net/url"
+	"strings"
 )
 
 type Form struct {
@@ -23,6 +24,14 @@ func (f *Form) Has(field string) bool {
 		return false
 	}
 	return true
+}
+func (f *Form) Required(fields ...string) {
+	for _,field:=range fields {
+	value :=	f.Values.Get(field)
+	if strings.TrimSpace(value) == "" {
+		f.Errors.Add(field,"This field is required")
+	}
+	}
 }
 
 //Valid returns true if there are no errors, otherwise false

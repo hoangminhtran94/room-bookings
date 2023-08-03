@@ -46,8 +46,13 @@ func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
 }
 
 func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
+	var emptyReservation models.Reservation
+	data:= make(map[string]interface{})
+	data["reservation"]  = emptyReservation
+
 	render.RenderTemplate(res,req, "make-reservation.html", &models.TemplateData{
 		Form: form.New(nil),
+		Data: data,
 	})
 }
 //Handle post request to make reservation
@@ -63,10 +68,11 @@ func (m *Repository) PostResevation(res http.ResponseWriter, req *http.Request) 
 		Email: req.Form.Get("email"),
 		Phone: req.Form.Get("phone"),
 	}
-
+	//Checking and validation formdata
 	formdata:=form.New(req.PostForm);
 	//Check if there is firstname in formdata
-	formdata.Has("first_name")
+
+	formdata.Required("first_name","last_name","email","phone")
 
 	if(!formdata.Valid()) {
 		data :=make(map[string]interface{})
