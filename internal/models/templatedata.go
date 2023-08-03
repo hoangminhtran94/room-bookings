@@ -1,5 +1,7 @@
 package models
 
+import "github.com/hoangminhtran94/room-bookings/internal/form"
+
 type TemplateData struct {
 	StringMap map[string]string
 	IntMap    map[string]int
@@ -9,4 +11,5 @@ type TemplateData struct {
 	Flask     string
 	Warning   string
 	Error     string
+	Form *form.Form
 }

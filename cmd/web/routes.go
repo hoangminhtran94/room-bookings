@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/hoangminhtran94/room-bookings/pkg/config"
-	"github.com/hoangminhtran94/room-bookings/pkg/handlers"
+	"github.com/hoangminhtran94/room-bookings/internal/config"
+	"github.com/hoangminhtran94/room-bookings/internal/handlers"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -19,6 +19,7 @@ func routes(app *config.AppConfig) http.Handler {
 	router.Get("/", handlers.Repo.Home)
 	router.Get("/about", handlers.Repo.About)
 	router.Get("/make-reservation", handlers.Repo.Resevation)
+	router.Post("/make-reservation", handlers.Repo.PostResevation)
 	router.Get("/check-availability", handlers.Repo.Availability)
 	router.Post("/check-availability", handlers.Repo.PostAvailability)
 	router.Get("/generals-quarters", handlers.Repo.Generals)

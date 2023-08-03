@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/hoangminhtran94/room-bookings/pkg/config"
-	"github.com/hoangminhtran94/room-bookings/pkg/models"
-	"github.com/hoangminhtran94/room-bookings/pkg/render"
+	"github.com/hoangminhtran94/room-bookings/internal/config"
+	"github.com/hoangminhtran94/room-bookings/internal/form"
+	"github.com/hoangminhtran94/room-bookings/internal/models"
+	"github.com/hoangminhtran94/room-bookings/internal/render"
 )
 
 // TemplateData hold page data
@@ -44,9 +46,40 @@ func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
 }
 
 func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
-	// stringMap := make(map[string]string)
-	// stringMap["text"] = "st"
-	render.RenderTemplate(res,req, "make-reservation.html", &models.TemplateData{})
+	render.RenderTemplate(res,req, "make-reservation.html", &models.TemplateData{
+		Form: form.New(nil),
+	})
+}
+//Handle post request to make reservation
+func (m *Repository) PostResevation(res http.ResponseWriter, req *http.Request) {
+	err :=req.ParseForm();
+	if(err != nil) {
+		log.Println(err)
+		return
+	}
+	reservation:= models.Reservation {
+		FirstName: req.Form.Get("first_name"),
+		LastName: req.Form.Get("last_name"),
+		Email: req.Form.Get("email"),
+		Phone: req.Form.Get("phone"),
+	}
+
+	formdata:=form.New(req.PostForm);
+	//Check if there is firstname in formdata
+	formdata.Has("first_name")
+
+	if(!formdata.Valid()) {
+		data :=make(map[string]interface{})
+		data["reservation"]  = reservation
+		render.RenderTemplate(res,req, "make-reservation.html", &models.TemplateData{
+			Form:formdata,
+			Data:data,
+	
+		})
+		return
+	}
+	
+
 }
 func (m *Repository) Availability(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
