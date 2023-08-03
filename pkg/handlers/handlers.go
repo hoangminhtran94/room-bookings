@@ -31,7 +31,7 @@ func (m *Repository) Home(res http.ResponseWriter, req *http.Request) {
 	m.App.Session.Put(req.Context(), "remote_ip", remoteId)
 	stringMap := make(map[string]string)
 	stringMap["test"] = "Hello, again."
-	render.RenderTemplate(res, "home.html", &models.TemplateData{
+	render.RenderTemplate(res,req, "home.html", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -40,29 +40,35 @@ func (m *Repository) Home(res http.ResponseWriter, req *http.Request) {
 func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
 	// stringMap["text"] = "st"
-	render.RenderTemplate(res, "about.html", &models.TemplateData{})
+	render.RenderTemplate(res,req, "about.html", &models.TemplateData{})
 }
 
 func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
 	// stringMap["text"] = "st"
-	render.RenderTemplate(res, "make-reservation.html", &models.TemplateData{})
+	render.RenderTemplate(res,req, "make-reservation.html", &models.TemplateData{})
 }
 func (m *Repository) Availability(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
 	// stringMap["text"] = "st"
-	render.RenderTemplate(res, "availability.html", &models.TemplateData{})
+	render.RenderTemplate(res,req, "availability.html", &models.TemplateData{})
+}
+func (m *Repository) PostAvailability(res http.ResponseWriter, req *http.Request) {
+	// formData := req.Form
+	// start := formData.Get("start")
+	// end := formData.Get("end")
+	render.RenderTemplate(res,req, "availability.html", &models.TemplateData{})
 }
 
 func (m *Repository) Generals(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
 	// stringMap["text"] = "st"
-	render.RenderTemplate(res, "generals.html", &models.TemplateData{})
+	render.RenderTemplate(res,req, "generals.html", &models.TemplateData{})
 }
 func (m *Repository) MajorSuite(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res,"majors.html",&models.TemplateData{})
+	render.RenderTemplate(res,req,"majors.html",&models.TemplateData{})
 }
 
 func (m *Repository) Contact(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res,"contact.html",&models.TemplateData{})
+	render.RenderTemplate(res,req,"contact.html",&models.TemplateData{})
 }

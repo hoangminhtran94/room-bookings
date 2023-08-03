@@ -9,6 +9,7 @@ import (
 
 	"github.com/hoangminhtran94/room-bookings/pkg/config"
 	"github.com/hoangminhtran94/room-bookings/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var app *config.AppConfig
@@ -17,12 +18,12 @@ func NewTemplate(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
-
+func AddDefaultData(td *models.TemplateData, req *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(req)
 	return td
 }
 
-func RenderTemplate(res http.ResponseWriter, templ string, td *models.TemplateData) {
+func RenderTemplate(res http.ResponseWriter, req *http.Request, templ string, td *models.TemplateData) {
 	var caches map[string]*template.Template
 	if app.UseCache {
 		caches = app.TemplateCache
@@ -34,8 +35,9 @@ func RenderTemplate(res http.ResponseWriter, templ string, td *models.TemplateDa
 	cache, ok := caches[templ]
 	if !ok {
 		log.Fatal("Could not get template from caches")
+		
 	}
-	td = AddDefaultData(td)
+	td = AddDefaultData(td,req)
 	err := cache.Execute(res, td)
 	if err != nil {
 		fmt.Println("Error parsing template:", err)

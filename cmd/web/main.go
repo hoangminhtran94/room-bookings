@@ -29,6 +29,7 @@ func main() {
 	app.Session = session
 	template, err := render.CreateTemplateCache()
 	if err != nil {
+		log.Fatal(err)
 		log.Fatal("Cannot create template cache")
 	}
 	app.TemplateCache = template

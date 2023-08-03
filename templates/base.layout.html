@@ -96,7 +96,7 @@
         </ul>
       </div>
     </nav>
-    {{block "content" .}} {{end}} {{block "js" .}} {{end}}
+    {{block "content" .}} {{end}}
     <footer class="my-footer">
       <div class="row">
         <div class="col">left</div>
@@ -106,7 +106,7 @@
         <div class="col">right</div>
       </div>
     </footer>
-
+    {{block "js" .}} {{end}}
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -117,6 +117,91 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const Prompt = () => {
+        const toast = (options) => {
+          const { msg = "", icon = "success", position = "top-end" } = options;
+
+          const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({});
+        };
+
+        let success = (options) => {
+          const { msg = "", title = "", footer = "" } = options;
+
+          Swal.fire({
+            icon: "success",
+            title: title,
+            text: msg,
+            footer: footer,
+          });
+        };
+
+        let error = (options) => {
+          const { msg = "", title = "", footer = "" } = options;
+
+          Swal.fire({
+            icon: "error",
+            title: title,
+            text: msg,
+            footer: footer,
+          });
+        };
+
+        async function custom(options) {
+          const { msg = "", title = "" } = options;
+          const { value: formValues } = await Swal.fire({
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            willOpen: options.willOpen,
+            didOpen: options.didOpen,
+            preConfirm: () => {
+              return [
+                document.getElementById("start").value,
+                document.getElementById("end").value,
+              ];
+            },
+          });
+          if (formValues) {
+            if (formValues.dismiss !== Swal.DismissReason.cancel) {
+              if (formValues.value !== "") {
+                if (options.callback !== undefined) {
+                  options.callback(formValues);
+                } else {
+                  options.callback(false);
+                }
+              }
+            }
+          }
+        }
+
+        return {
+          toast: toast,
+          success: success,
+          error: error,
+          custom: custom,
+        };
+      };
+      const attention = Prompt();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>
   </body>
 </html>
 

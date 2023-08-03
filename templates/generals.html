@@ -30,103 +30,14 @@
 
   <div class="row">
     <div class="col text-center">
-      <button
-        onclick="toggleCheckAvailability()"
-        id="check-availability-button"
-        class="btn btn-success"
-      >
+      <button id="check-availability-button" class="btn btn-success">
         Check Availability
       </button>
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>
+{{end}} {{define "js"}}
 <script>
-  const Prompt = () => {
-    const toast = (options) => {
-      const { msg = "", icon = "success", position = "top-end" } = options;
-
-      const Toast = Swal.mixin({
-        toast: true,
-        title: msg,
-        position: position,
-        icon: icon,
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({});
-    };
-
-    let success = (options) => {
-      const { msg = "", title = "", footer = "" } = options;
-
-      Swal.fire({
-        icon: "success",
-        title: title,
-        text: msg,
-        footer: footer,
-      });
-    };
-
-    let error = (options) => {
-      const { msg = "", title = "", footer = "" } = options;
-
-      Swal.fire({
-        icon: "error",
-        title: title,
-        text: msg,
-        footer: footer,
-      });
-    };
-
-    async function custom(options) {
-      const { msg = "", title = "" } = options;
-
-      const { value: formValues } = await Swal.fire({
-        title: title,
-        html: msg,
-        backdrop: false,
-        focusConfirm: false,
-        showCancelButton: true,
-        willOpen: () => {
-          const elem = document.getElementById("reservation-dates-modal");
-          const rp = new DateRangePicker(elem, {
-            format: "yyyy-mm-dd",
-            showOnFocus: true,
-          });
-        },
-        didOpen: () => {
-          document.getElementById("start").removeAttribute("disabled");
-          document.getElementById("end").removeAttribute("disabled");
-        },
-        preConfirm: () => {
-          return [
-            document.getElementById("start").value,
-            document.getElementById("end").value,
-          ];
-        },
-      });
-
-      if (formValues) {
-        Swal.fire(JSON.stringify(formValues));
-      }
-    }
-
-    return {
-      toast: toast,
-      success: success,
-      error: error,
-      custom: custom,
-    };
-  };
-  const attention = Prompt();
   const toggleCheckAvailability = () => {
     let html = `
         <form style="overflow:visible" id="check-availability-form" action="" method="post" novalidate class="needs-validation">
@@ -148,7 +59,32 @@
     attention.custom({
       title: "Choose your dates",
       msg: html,
+      willOpen: () => {
+        const elem = document.getElementById("reservation-dates-modal");
+        const rp = new DateRangePicker(elem, {
+          format: "yyyy-mm-dd",
+          showOnFocus: true,
+        });
+      },
+      didOpen: () => {
+        document.getElementById("start").removeAttribute("disabled");
+        document.getElementById("end").removeAttribute("disabled");
+      },
+      callback: async () => {
+        const form = document.getElementById("check-availability-form");
+        const formdata = new FormData(form);
+        formdata.append("csrf_token", "{{.CSRFToken}}");
+        const res = await fetch("/search-availability", {
+          method: "POST",
+          body: formdata,
+        });
+        console.log(res);
+      },
     });
   };
+  document
+    .getElementById("check-availability-button")
+    .addEventListener("click", toggleCheckAvailability);
 </script>
+
 {{end}}
