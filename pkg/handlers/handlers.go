@@ -46,7 +46,12 @@ func (m *Repository) About(res http.ResponseWriter, req *http.Request) {
 func (m *Repository) Resevation(res http.ResponseWriter, req *http.Request) {
 	// stringMap := make(map[string]string)
 	// stringMap["text"] = "st"
-	render.RenderTemplate(res, "reservation.html", &models.TemplateData{})
+	render.RenderTemplate(res, "make-reservation.html", &models.TemplateData{})
+}
+func (m *Repository) Availability(res http.ResponseWriter, req *http.Request) {
+	// stringMap := make(map[string]string)
+	// stringMap["text"] = "st"
+	render.RenderTemplate(res, "availability.html", &models.TemplateData{})
 }
 
 func (m *Repository) Generals(res http.ResponseWriter, req *http.Request) {
@@ -55,5 +60,9 @@ func (m *Repository) Generals(res http.ResponseWriter, req *http.Request) {
 	render.RenderTemplate(res, "generals.html", &models.TemplateData{})
 }
 func (m *Repository) MajorSuite(res http.ResponseWriter, req *http.Request) {
-	render.RenderTemplate(res,"major.html",&models.TemplateData{})
+	render.RenderTemplate(res,"majors.html",&models.TemplateData{})
+}
+
+func (m *Repository) Contact(res http.ResponseWriter, req *http.Request) {
+	render.RenderTemplate(res,"contact.html",&models.TemplateData{})
 }
